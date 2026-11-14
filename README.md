@@ -8,7 +8,7 @@ YouTube -> transkrip (Whisper) -> pilih momen terkuat (Gemini) -> klip 9:16 ber-
 3. Isi `kanal.txt` dengan kanal sumber.
 
 ## Pakai
-- Otomatis: 06.40, 10.40, 17.40 WIB.
+- Otomatis: 06.00, 10.00, 16.30 WIB.
 - Manual: tab Actions > Mesin Klip > Run workflow, tempel tautan YouTube.
 - Hasil: buka run-nya, unduh artifact `klip-N` (video + caption.md).
 
