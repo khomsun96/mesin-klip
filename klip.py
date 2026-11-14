@@ -74,7 +74,8 @@ def unduh(url):
     berkas = KERJA / "sumber.mp4"
     jalankan(
         opsi_ytdlp()
-        + ["--no-playlist", "-f", "bv*[height<=720]+ba/b[height<=720]/b", "--merge-output-format", "mp4", "-o", str(berkas), url]
+        + ["--no-playlist", "-f", "bv*[height<=720]+ba/b[height<=720]/b", "--merge-output-format", "mp4", "-o", str(berkas), url],
+        stderr=subprocess.PIPE,
     )
     return berkas, info
 
@@ -219,5 +220,22 @@ def utama():
     print(f"Selesai: {len(catatan)} klip.")
 
 
+def lapor(pesan):
+    """Tampilkan galat sebagai anotasi di halaman run GitHub."""
+    ringkas = " | ".join(b.strip() for b in str(pesan).strip().splitlines()[-6:] if b.strip())
+    print(f"::error::{ringkas[:900]}", flush=True)
+
+
 if __name__ == "__main__":
-    utama()
+    try:
+        utama()
+    except SystemExit as e:
+        if e.code not in (None, 0):
+            lapor(e.code)
+        raise
+    except subprocess.CalledProcessError as e:
+        lapor(f"Perintah gagal: {' '.join(map(str, e.cmd))[:200]}\n{e.stderr or ''}")
+        raise
+    except Exception as e:
+        lapor(f"{type(e).__name__}: {e}")
+        raise

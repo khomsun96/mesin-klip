@@ -14,10 +14,10 @@ on:
     paths:
       - antrian.txt
   schedule:
-    # 06.40, 10.40, 17.40 WIB (UTC+7) supaya siap pukul 07.00, 11.00, 18.00
-    - cron: "40 23 * * *"
-    - cron: "40 3 * * *"
-    - cron: "40 10 * * *"
+    # 06.00, 10.00, 16.30 WIB (UTC+7)
+    - cron: "0 23 * * *"
+    - cron: "0 3 * * *"
+    - cron: "30 9 * * *"
 
 permissions:
   contents: write
