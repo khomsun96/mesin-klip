@@ -83,14 +83,22 @@ def unduh(url):
 def transkrip(berkas):
     audio = KERJA / "audio.wav"
     jalankan(["ffmpeg", "-y", "-loglevel", "error", "-i", str(berkas), "-vn", "-ac", "1", "-ar", "16000", str(audio)])
-    model = WhisperModel(MODEL_WHISPER, device="cpu", compute_type="int8")
-    segmen, _ = model.transcribe(str(audio), language=os.environ.get("BAHASA", "id"), word_timestamps=True, vad_filter=True)
-    kalimat, kata = [], []
-    for s in segmen:
-        kalimat.append({"mulai": round(s.start, 1), "akhir": round(s.end, 1), "teks": s.text.strip()})
-        for k in s.words or []:
-            kata.append({"mulai": k.start, "akhir": k.end, "teks": k.word.strip()})
-    return kalimat, kata
+    def baca(perangkat, presisi):
+        model = WhisperModel(MODEL_WHISPER, device=perangkat, compute_type=presisi)
+        segmen, _ = model.transcribe(str(audio), language=os.environ.get("BAHASA", "id"), word_timestamps=True, vad_filter=True)
+        kalimat, kata = [], []
+        for s in segmen:
+            kalimat.append({"mulai": round(s.start, 1), "akhir": round(s.end, 1), "teks": s.text.strip()})
+            for k in s.words or []:
+                kata.append({"mulai": k.start, "akhir": k.end, "teks": k.word.strip()})
+        return kalimat, kata
+
+    if os.environ.get("WHISPER_DEVICE") == "cuda":
+        try:
+            return baca("cuda", "float16")
+        except Exception as e:  # GPU tidak siap: lanjut dengan CPU
+            print("GPU gagal, pakai CPU:", e, flush=True)
+    return baca("cpu", "int8")
 
 
 def pilih_momen(kalimat, info):
