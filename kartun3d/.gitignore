@@ -1,0 +1,7 @@
+node_modules/
+out/
+public/fonts/
+*.mp4
+mix.wav
+vo16.wav
+vo_raw.wav
