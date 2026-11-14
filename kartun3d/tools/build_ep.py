@@ -11,7 +11,7 @@ json.dump({"off":OFF,"gap":GAP,"breaks":spec.BREAKS,"src":[w["s"] for w in words
 W=lambda i:out[i]["s"]; S=lambda i:round(W(i)-0.22,3); END=round(out[-1]["e"]+2.2,2)
 # Preset kamera yang sudah teruji (karakter di tengah-bawah, judul di atas kepala)
 CAMS={
- "hook":{"from":[0.3,2.4,10.6],"to":[0,2.1,9.3],"look":[0,1.75,0],"fov":34},          # 1 tokoh berdiri, teks hook di atas
+ "hook":{"from":[0.3,2.5,10.8],"to":[0,2.2,9.5],"look":[0,1.95,0],"fov":34},          # 1 tokoh berdiri, teks hook di atas
  "berdiri":{"from":[-1.6,2.5,11.2],"to":[-0.5,2.2,9.6],"look":[0,2.05,0],"fov":34},   # 1 tokoh berdiri
  "berdiri2":{"from":[1.6,2.5,11.2],"to":[0.5,2.2,9.8],"look":[0,2.05,0],"fov":34},
  "tiga":{"from":[-0.5,2.5,12.2],"to":[0.4,2.4,11.3],"look":[0,2.2,0],"fov":34},        # 3 tokoh sejajar (x=-1.3, 0, 1.3)

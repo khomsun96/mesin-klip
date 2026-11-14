@@ -32,7 +32,7 @@ Render ±20–25 menit (2 CPU). Episode contoh yang sudah teruji: `episodes/mara
   - `cam`: nama preset di tools/build_ep.py — hook, berdiri, berdiri2, tiga, berhadapan, berhadapan2, duduk, duduk2, dalil.
     Posisi tokoh yang cocok: 1 tokoh x=0; tiga → x=-1.3/0/1.3; berhadapan → x=-0.9 (yaw 1.1) & x=1.3 (yaw -1.1); dalil → x=0.45.
     Lebar layar hanya ±3,8 satuan: jangan taruh tokoh di luar x=±1.5.
-  - `actors`: [{look, keys}]. look: "utama" (koko kuning, tokoh tetap seri ini) | "teman" | "teman2" | "murid" | "murid2".
+  - `actors`: [{look, keys}]. look: "utama" = PAK ITHAJI, tokoh ikon semua video (jambul tinggi berujung kuning, kumis tipis, sorban hijau, koko kuning, tanpa peci — jangan diubah) | "teman" | "teman2" | "murid" | "murid2".
     keys = [{t (detik absolut; kunci pertama t=0), d (lama transisi, default 0.45), dan salah satu/lebih:
     x, z, yaw, sit (duduk 0–1), lie (berbaring 0–1), anger (marah: wajah merah, uap, percikan), wave (tangan terangkat/bergerak),
     hot (dada menyala), nod (mengangguk), walk (melangkah), shrink (mundur takut)}]. Nilai bertahan sampai kunci berikutnya.
