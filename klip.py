@@ -172,8 +172,19 @@ def potong(sumber, mulai, akhir, ass, tujuan):
     ])
 
 
+def tautan_antrian():
+    """Saat dipicu oleh perubahan antrian.txt, pakai tautan terakhir di berkas itu."""
+    berkas = AKAR / "antrian.txt"
+    if os.environ.get("PEMICU") != "push" or not berkas.exists():
+        return ""
+    baris = [b.strip() for b in berkas.read_text().splitlines() if b.strip() and not b.startswith("#")]
+    return baris[-1] if baris else ""
+
+
 def utama():
-    url = pilih_sumber(os.environ.get("URL_VIDEO", "").strip())
+    if not os.environ.get("GEMINI_API_KEY"):
+        sys.exit("Secret GEMINI_API_KEY belum dipasang di Settings > Secrets and variables > Actions.")
+    url = pilih_sumber(os.environ.get("URL_VIDEO", "").strip() or tautan_antrian())
     if not url:
         print("Tidak ada video baru di kanal.txt. Selesai tanpa klip.")
         return

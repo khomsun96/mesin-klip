@@ -10,6 +10,9 @@ on:
         description: "Jumlah klip"
         required: false
         default: "2"
+  push:
+    paths:
+      - antrian.txt
   schedule:
     # 06.40, 10.40, 17.40 WIB (UTC+7) supaya siap pukul 07.00, 11.00, 18.00
     - cron: "40 23 * * *"
@@ -54,6 +57,7 @@ jobs:
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
           NICHE: ${{ vars.NICHE || 'agama, psikologi, leadership' }}
           URL_VIDEO: ${{ inputs.url }}
+          PEMICU: ${{ github.event_name }}
           JUMLAH_KLIP: ${{ inputs.jumlah || '2' }}
         run: python klip.py
 
