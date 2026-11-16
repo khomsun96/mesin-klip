@@ -28,14 +28,21 @@ Render ±20–25 menit (2 CPU). Episode contoh yang sudah teruji: `episodes/mara
 - `HOOK` = 3 baris (≤16 huruf per baris; baris ke-3 jadi blok kuning). VO membaca hook mulai 1,15 dtk.
 - `scenes(W,S,END)` → daftar adegan berurutan; adegan pertama id "hook" (start 0), terakhir id "poll".
   Tiap adegan: `id, start, end, set, cam, actors` + opsional `heading, heading2, items, itemsY, arab, props`.
-  - `set`: "rumah" | "kantor" | "kelas" | "malam" (langit ungu + masjid; pakai untuk dalil/renungan).
+  - `set`: "rumah" | "kantor" | "kelas" | "malam" (langit ungu + masjid) | "dapur" (meja makan) | "panggung" (kuis TV, lampu sorot, LED) |
+    "kamar" (kamar anak malam berbintang) | "lapangan" (rumput + meja pingpong) | "masjid" (dalam masjid, karpet saf) | "gerbang" (gerbang sekolah sore).
+    `podium`: [x,…] menaruh podium kuis (cocok dengan set panggung).
+  - **WAJIB VARIASI (keputusan Khomsun 16 Nov 2026):** setiap video memakai KOMBINASI set, kamera, pose, dan properti yang BERBEDA dari video sebelumnya,
+    diturunkan dari narasi/judul niche saat itu (cari metafora visual dari isi naskah: mis. percakapan → pingpong, ceramah satu arah → gelembung kata + tokoh membesar/anak mengecil, menunggu → jam pasir).
+    Cek baris "Adegan" 3 entri NICHE terakhir di log. Tambahkan set/pose/properti baru di src/Scene3D.tsx bila tema membutuhkan (minimal 1 baru per video), lalu push ke cabang ini.
   - `cam`: nama preset di tools/build_ep.py — hook, berdiri, berdiri2, tiga, berhadapan, berhadapan2, duduk, duduk2, dalil.
     Posisi tokoh yang cocok: 1 tokoh x=0; tiga → x=-1.3/0/1.3; berhadapan → x=-0.9 (yaw 1.1) & x=1.3 (yaw -1.1); dalil → x=0.45.
     Lebar layar hanya ±3,8 satuan: jangan taruh tokoh di luar x=±1.5.
   - `actors`: [{look, keys}]. look: "utama" = PAK ITHAJI, tokoh ikon semua video (jambul tinggi berujung kuning, kumis tipis, sorban hijau, koko kuning, tanpa peci — jangan diubah) | "teman" | "teman2" | "murid" | "murid2".
     keys = [{t (detik absolut; kunci pertama t=0), d (lama transisi, default 0.45), dan salah satu/lebih:
     x, z, yaw, sit (duduk 0–1), lie (berbaring 0–1), anger (marah: wajah merah, uap, percikan), wave (tangan terangkat/bergerak),
-    hot (dada menyala), nod (mengangguk), walk (melangkah), shrink (mundur takut)}]. Nilai bertahan sampai kunci berikutnya.
+    hot (dada menyala), nod (mengangguk), walk (melangkah), shrink (mundur takut), jump (melompat-lompat), spin (berputar), dance (joget goyang),
+    cheer (dua tangan bersorak), clap (tepuk tangan), point (menunjuk ke depan), raise (angkat tangan bertanya), cover (tutup mulut/wajah),
+    tilt (miring kepala, −1..1), big (ukuran: 0.35 membesar, −0.35 mengecil), up (naik/melayang)}]. Nilai bertahan sampai kunci berikutnya.
     Peragakan isi narasi: tiap adegan minimal 1 perubahan pose tepat di kata kuncinya (pakai W(i)).
   - `heading`/`heading2`: {t, lines:[[teks,0],[teks,1]], out?} — 2 baris, ≤13 huruf; baris bernilai 1 berwarna kuning.
     heading2 hanya setelah heading diberi `out`.
@@ -43,7 +50,9 @@ Render ±20–25 menit (2 CPU). Episode contoh yang sudah teruji: `episodes/mara
     icon: x, check, boom, mute, walk, sound, hand, chat, fire, down. `itemsY` (px) hanya bila perlu; adegan `arab` pakai 690.
   - `arab`: {t, text (Arab berharakat, pendek), trans (terjemah ≤90 huruf), src ("HR. … NO. … · SAHIH" / "QS. …: …"), srcT}.
     Jangan menaruh heading bersamaan dengan arab (beri heading `out` sebelum arab.t).
-  - `props`: [{kind:"hp", t, pos:[x,y,z]}] — ponsel melayang.
+  - `props`: [{kind, t, end?, …}] — "hp"/"tanya"/"mik" {pos} (ponsel, tanda tanya 3D, mikrofon) · "konfeti" {pos} (ledakan konfeti) ·
+    "gelembung" {a,b,n} (gelembung kata terbang dari a ke b) · "pingpong" {a,b} (bola + bet bolak-balik) · "jam" {pos} (jam pasir) · "telinga" {pos} (telinga raksasa + gelombang suara).
+  - `cam` boleh preset, dict {from,to,look,fov}, atau orbit {orbit:{a0,a1,r0,r1,h0,h1}, look, fov} (kamera memutar; jangan pakai sudut/radius sama dua adegan berurutan).
 - `poll(W,S)` → {start, q (≤34 huruf), opts:[{k:"A",text (≤12 huruf),t}×3], cta, ctaT}. start = S(indeks kata "Sekarang").
 
 ## Aturan tampilan
